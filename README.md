@@ -3,8 +3,8 @@
 An easy and smart Router component to be used in React Native redux applications.  Packed with Navbar and TabBar support. 
 
 
- ![image](https://raw.githubusercontent.com/dunhuang/react-native-smart-router/raw/master/smartcomp.gif)
- 
+ ![image](https://github.com/dunhuang/react-native-smart-router/raw/master/smartcomp.gif)
+
 
 ## getting started
 
