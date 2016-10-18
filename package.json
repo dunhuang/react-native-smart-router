@@ -1,0 +1,27 @@
+{
+  "name": "react-native-smart-router",
+  "version": "0.1.0",
+  "description": "Router, Tabbar, Navbar Components for React Native, based on Navigator. ",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "routing",
+    "redux",
+    "react-native",
+    "tabbar",
+    "navbar"
+  ],
+  "author": "Dunhuang",
+  "maintainers": [
+    {
+      "name": "Dunhuang",
+      "email": "shiyh2012@foxmail.com"
+    }
+  ],
+  "license": "MIT",
+  "dependencies": {
+    "react-native-vector-icons": "^2.1.0"
+  }
+}
