@@ -5,6 +5,7 @@ import Navbar from './src/navbar';
 import Tabbar from './src/tabbar';
 import * as actions from './src/actions';
 import reducer from './src/reducer';
+const emptyFn = function(){};
 
 const actionTypes = actions.actionTypes;
 
@@ -41,15 +42,13 @@ class TabRoute extends React.Component {
 class Router extends Component {
   constructor(props) {
     super(props);
-
-    const { actions = {}, dispatch } = this.props;
+    const { actions = {}, dispatch, onDidFocus = emptyFn, onWillFocus = emptyFn} = this.props;
     actions.routes = {};
     this.routes = {};
     this.initial = { name: this.props.initial };
 
     React.Children.forEach(props.children, (child, index) => {
       let name = child.props.name;
-
       if (child.type.prototype.className() === 'Route') {
         //if props.initial is undefined in Router, it can be defined in Route's props
         if (child.props.initial && !this.initial.name) {
@@ -64,23 +63,22 @@ class Router extends Component {
             payload: { name:name, data },
           });
         };
-
-        this.routes[name] = child.props;
-
+        this.routes[name] = Object.assign({}, {onDidFocus}, {onWillFocus}, child.props);
         if (!child.props.component && !child.props.children) {
           console.error('No route component is defined for name: ' + name);
           return;
         }
       }
       else if (child.type.prototype.className() == 'TabRoute') {
-        let {name, chidren, ...passProps} = child.props;
+        let {name, chidren, onDidFocus: onTabDidFocus = emptyFn, onWillFocus:onTabWillFocus = emptyFn, ...passProps} = child.props;
         const tabBarName = child.props.name;
         this.routes[tabBarName] = {passProps};
         actions.routes[tabBarName] = {};
         React.Children.forEach(child.props.children, (tabChild, tabIndex) => {
           const tabName = tabChild.props.name;
-          this.routes[tabBarName][tabName] = tabChild.props;
-          this.routes[tabName] = Object.assign({},tabChild.props);
+          let newprops = Object.assign({},  {onDidFocus}, {onDidFocus: onTabDidFocus}, {onWillFocus}, {onWillFocus: onTabWillFocus}, tabChild.props);
+          this.routes[tabBarName][tabName] = newprops;
+          this.routes[tabName] = Object.assign({}, newprops);
           this.routes[tabName].tabBarName=tabBarName;
           if (tabChild.props.initial || !this.initial.name) {
             this.initial.name = tabName;
@@ -146,11 +144,18 @@ class Router extends Component {
           initialRoute={this.getRoute(this.initialRoute, this.props.router)}
           renderScene={this.renderScene.bind(this)}
           ref={(nav) => this.nav = nav}
+          onDidFocus = {this.onDidFocus.bind(this)}
+          onWillFocus = {this.onWillFocus.bind(this)}
         />
       </View>
     );
   }
-
+  onDidFocus(route){
+    this.routes[route.name].onDidFocus && this.routes[route.name].onDidFocus(route);
+  }
+  onWillFocus(route){
+    this.routes[route.name].onWillFocus && this.routes[route.name].onWillFocus(route);
+  }
   renderScene(route, navigator) {
     let Component = route.component;
     let props = Object.assign({}, this.props);

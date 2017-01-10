@@ -3,9 +3,6 @@
 An easy and smart Router component to be used in React Native redux applications.  Packed with Navbar and TabBar support. 
 
 
- ![image](https://github.com/dunhuang/react-native-smart-router/raw/master/smartcomp.gif)
-
-
 ## getting started
 
 ```
@@ -132,11 +129,26 @@ You can config tabbar by set props of ```TabRoute``` as:
 
 ```
 
-Or you can user self-defined Component:
+Or you can use self-defined Component:
 
 ```
 <TabRoute name="tabbar" component={MyTabbar}>
 
+```
+
+### onDidFocus/ onWillFocus
+onDidFocus/onWillFocus is supported. You can config in Router, TabRoute or Route as:
+
+```
+      <Router {...this.props} initial="home" onDidFocus={(route)=>{console.log('this is Router: '+route.name)}} >
+        <TabRoute name="tabbar" onDidFocus={(route)=>{console.log('this is TabRoute: '+route.name)}}>
+          <Route component={Home} name="home" title="Home1" tabIconName="home" onDidFocus={(route)=>{console.log('You are entering '+route.name)}}/>
+          <Route component={Message} name="message" title="Message" tabIconName="envelope-o"/>
+          <Route component={About} name="about" title="About" tabIconName="user"/>
+        </TabRoute>
+        <Route component={Page1} name="page1" navbar={true} title="Page1" leftBtn={true} onDidFocus={(route)=>{console.log('You are entering '+route.name)}}/>
+        <Route component={Login} name="login" sceneConfig="FloatFromBottom" />
+      </Router>
 ```
 
 ## Inspiration
