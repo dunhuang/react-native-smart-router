@@ -2,6 +2,8 @@
 
 An easy and smart Router component to be used in React Native redux applications.  Packed with Navbar and TabBar support. 
 
+![example](https://raw.githubusercontent.com/dunhuang/react-native-smart-router/master/smartcomp.gif)
+
 
 ## getting started
 
@@ -114,7 +116,7 @@ You can set boolean of navbar to show or hide navbar in a page view, and you can
 
 ```
 
-Or you can user self-defined Navbar
+Or you can use self-defined Navbar
 
 ```
 <Route component={Page1} name="page1" navbar={Mynav} title="PAGE1"/>
